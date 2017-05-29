@@ -37,7 +37,7 @@ public class UserTest {
     }
 
     @Test
-    public void checkforOneTaskExists__Duplicates(){
+    public void checkforElevenTasksExist__Duplicates(){
         Task task = new Task("Hoover dog", 1, "Remove all loose hair from dog.");
         user.addTask(task);
         assertEquals(11, user.getDuplicateTasks().size());
