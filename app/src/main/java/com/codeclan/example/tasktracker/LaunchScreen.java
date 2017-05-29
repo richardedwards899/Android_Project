@@ -60,39 +60,19 @@ public class LaunchScreen extends AppCompatActivity {
         if (id == R.id.action_Freya) {
             //Display a list of all Freya's tasks!
             User freya = new User("Freya");
-
-            //Instead of using the default tasks, we want to read them in from SharedPreferences.
-            String freyaTasksJson = getTasksFromSharedPreferences(freya);
-
-            //1 - Load favourites
-            ArrayList<Task> freyaTasks = getTasksFromJSon(freyaTasksJson);
-
-            //Log.d(freyaTasks.getClass(), freyaTasks.toString());
-
-            //The following 3 lines have been adapted from TopMoviesActivity
-            TaskAdapter taskAdapter = new TaskAdapter(this, freyaTasks);
-            ListView listView = (ListView) findViewById(R.id.task_list);
-            listView.setAdapter(taskAdapter);
-
-            return true;
+            displayTasks(freya);
         }
         if (id == R.id.action_Eliza) {
             //Display a list of all Eliza's tasks!
             User eliza = new User("Eliza");
-            ArrayList<Task> elizaTasks = eliza.getTasks();
-
-            //The following 3 lines have been adapted from TopMoviesActivity
-            TaskAdapter taskAdapter = new TaskAdapter(this, elizaTasks);
-            ListView listView = (ListView) findViewById(R.id.task_list);
-            listView.setAdapter(taskAdapter);
-
-            return true;
+            displayTasks(eliza);
         }
         return super.onOptionsItemSelected(item);
     }
 
     private String getTasksFromSharedPreferences(User user) {
-        String sharedPrefsKey = user.getName()+"_tasks";
+        //Creates link to the user's SharedPreferences
+        String sharedPrefsKey = user.getName()+"_prefs";
         preferences = getSharedPreferences(sharedPrefsKey, Context.MODE_PRIVATE); //so only our app can use shared info
 
         ArrayList<String> tasksJSON = new ArrayList<>();
@@ -109,10 +89,23 @@ public class LaunchScreen extends AppCompatActivity {
         gson = new Gson();
         //the type we're expecting to get back
         TypeToken<ArrayList<Task>> taskArrayList = new TypeToken<ArrayList<Task>>(){};  //something about anonymous inner classes!
-        ArrayList<Task> freyaTasks = gson.fromJson(json, taskArrayList.getType());
-        Log.d("freya's tasks", freyaTasks.toString());
-        return freyaTasks;
+        ArrayList<Task> userTasks = gson.fromJson(json, taskArrayList.getType());
 
-//        return gson.fromJson(json, taskArrayList.getType());
+        return userTasks;
+    }
+
+    private boolean displayTasks(User user){
+        //Instead of using the default tasks, we want to read them in from SharedPreferences.
+        String userTasksJson = getTasksFromSharedPreferences(user);
+
+        //1 - Load favourites
+        ArrayList<Task> userTasks = getTasksFromJSon(userTasksJson);
+
+        //The following 3 lines have been adapted from TopMoviesActivity
+        TaskAdapter taskAdapter = new TaskAdapter(this, userTasks);
+        ListView listView = (ListView) findViewById(R.id.task_list);
+        listView.setAdapter(taskAdapter);
+
+        return true;
     }
 }
