@@ -1,12 +1,13 @@
 package com.codeclan.example.tasktracker;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by richardedwards on 26/05/2017.
  **/
 
-public class User {
+public class User implements Serializable {
 
     private String name;
     private ArrayList<Task> tasks;

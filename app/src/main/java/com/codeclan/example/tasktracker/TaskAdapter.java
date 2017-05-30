@@ -34,7 +34,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
         TextView taskName = (TextView) listItemView.findViewById(R.id.task_text);
         taskName.setText(currentTask.getName());
 
-        listItemView.setTag(currentTask);
+        //listItemView.setTag(currentTask);
 
         return listItemView;
     }

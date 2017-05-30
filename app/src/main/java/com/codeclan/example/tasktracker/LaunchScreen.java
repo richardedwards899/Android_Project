@@ -1,6 +1,7 @@
 package com.codeclan.example.tasktracker;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -22,26 +23,29 @@ public class LaunchScreen extends AppCompatActivity {
 
     private SharedPreferences preferences;
     private Gson gson = new Gson();
+    private User freya = new User("Freya");
+    private User eliza = new User("Eliza");
+    private User currentUser = freya; //initialized to avoid null pointer errors if the fab button is pressed before a menu selection
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch_screen);
 
-        //this bit is new!  Creates a link to the toolbar on the layout.
+        //Creates a link to the toolbar on the layout.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //set a Toolbar to act as the ActionBar for this Activity window.
         setSupportActionBar(toolbar);
 
-        //New! Creates a link to the button on the layout.
+        //Creates a link to the button on the layout.
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.add_button);
     }
 
     public void onFabClick(View view){
-        //Code here to take you to an add task screen...
-
-        Snackbar.make(view, "Trying to add a new Task!", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
+        Intent intent = new Intent(this, AddTaskActivity.class);
+        //here I can add a user to the intent, so that we can access it on the other side!
+        intent.putExtra("user", currentUser);
+        startActivity(intent);
     }
 
     @Override
@@ -53,18 +57,14 @@ public class LaunchScreen extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
         if (id == R.id.action_Freya) {
-            //Display a list of all Freya's tasks!
-            User freya = new User("Freya");
+            currentUser = freya;
             displayTasks(freya);
         }
         if (id == R.id.action_Eliza) {
-            //Display a list of all Eliza's tasks!
-            User eliza = new User("Eliza");
+            currentUser = eliza;
             displayTasks(eliza);
         }
         return super.onOptionsItemSelected(item);
@@ -87,8 +87,8 @@ public class LaunchScreen extends AppCompatActivity {
     private ArrayList<Task> getTasksFromJSon(String json){
         //we're going to use a library for constructing objects from Json
         gson = new Gson();
-        //the type we're expecting to get back
-        TypeToken<ArrayList<Task>> taskArrayList = new TypeToken<ArrayList<Task>>(){};  //something about anonymous inner classes!
+        //the type we're expecting to get back (involves something about anonymous inner classes!)
+        TypeToken<ArrayList<Task>> taskArrayList = new TypeToken<ArrayList<Task>>(){};
         ArrayList<Task> userTasks = gson.fromJson(json, taskArrayList.getType());
 
         return userTasks;
