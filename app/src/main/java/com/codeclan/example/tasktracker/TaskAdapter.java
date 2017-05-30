@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Movie;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,12 +33,14 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 
         //creates a handle to the TextView on the layout
         TextView taskName = (TextView) listItemView.findViewById(R.id.task_text);
-        taskName.setText(currentTask.getName());
+        taskName.setText(currentTask.getName()+" ("+currentTask.getPence()+"p)");
 
-        //listItemView.setTag(currentTask);
+        listItemView.setTag(currentTask);
 
         return listItemView;
     }
+
+
 
 }
 

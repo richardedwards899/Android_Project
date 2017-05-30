@@ -20,7 +20,8 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_launch_screen" />
+    <include layout="@layout/content_launch_screen"
+        android:layout_height="465dp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_button"
@@ -29,6 +30,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:onClick="onFabClick"
+        app:backgroundTint="@color/colorPrimary"
         app:elevation="6dp"
         app:fabSize="normal"
         app:srcCompat="@android:drawable/ic_input_add" />

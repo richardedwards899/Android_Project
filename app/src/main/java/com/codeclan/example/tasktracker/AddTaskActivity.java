@@ -37,11 +37,11 @@ public class AddTaskActivity extends AppCompatActivity {
     public void onAddButtonClick(View view){
         //Create links to the input fields on the layout
         EditText taskNameBox = (EditText) findViewById(R.id.task_name);
-        EditText pointsBox = (EditText) findViewById(R.id.points);
+        EditText penceBox = (EditText) findViewById(R.id.pence);
 
         //Grab their contents
         String taskName = taskNameBox.getText().toString();
-        String pointsString = pointsBox.getText().toString();
+        String penceString = penceBox.getText().toString();
 
         //validate input
         if (taskName.length()==0 ){
@@ -49,15 +49,15 @@ public class AddTaskActivity extends AppCompatActivity {
                     .setAction("Action", null).show();
             return;
         }
-        if (pointsString.length()==0){
-            Snackbar.make(view, "Please enter number of points", Snackbar.LENGTH_LONG)
+        if (penceString.length()==0){
+            Snackbar.make(view, "Please enter task's value in pence", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
             return;
         }
-        int points = Integer.parseInt(pointsString);
+        int pence = Integer.parseInt(penceString);
 
         //Create a new Task
-        Task task = new Task(taskName, points, "");
+        Task task = new Task(taskName, pence, "");
         currentUser.addTask(task);
 
         //Save updated Task list to SharedPreferences
@@ -75,6 +75,7 @@ public class AddTaskActivity extends AppCompatActivity {
         currentUserPreferences = getSharedPreferences(sharedPrefsKey, Context.MODE_PRIVATE);
 
         SharedPreferences.Editor editor = currentUserPreferences.edit();
+        editor.clear();
         Log.d("TASKS", gson.toJson(tasks));
         editor.putString("tasks", gson.toJson(tasks));
         editor.apply();

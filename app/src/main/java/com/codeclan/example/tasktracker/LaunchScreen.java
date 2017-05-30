@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.Gson; //Needed to add 'compile 'com.google.code.gson:gson:2.3.1'' to build.gradle to get this to work...
 import com.google.gson.reflect.TypeToken;
@@ -26,11 +27,18 @@ public class LaunchScreen extends AppCompatActivity {
     private User freya = new User("Freya");
     private User eliza = new User("Eliza");
     private User currentUser = freya; //initialized to avoid null pointer errors if the fab button is pressed before a menu selection
+    TextView nameBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch_screen);
+
+//        clears SharedPreferences for development purposes
+//        preferences = getSharedPreferences("Eliza_prefs", Context.MODE_PRIVATE);
+//        preferences.edit().clear().commit();
+//        preferences = getSharedPreferences("Freya_prefs", Context.MODE_PRIVATE);
+//        preferences.edit().clear().commit();
 
         //Creates a link to the toolbar on the layout.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -38,10 +46,19 @@ public class LaunchScreen extends AppCompatActivity {
         setSupportActionBar(toolbar);
         //Creates a link to the button on the layout.
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.add_button);
+        //creates a link to the TextView on the layout.
+        nameBox = (TextView) findViewById(R.id.child_name);
 
         //need to load each user with tasks from Json
         initialiseUserWithJSon(freya);
         initialiseUserWithJSon(eliza);
+
+        //Show Freya's tasks as default
+        displayContentFor(freya);
+    }
+
+    private void setName(){
+        nameBox.setText(currentUser.getName()+"\'s Tasks");
     }
 
     private void initialiseUserWithJSon(User user){
@@ -57,6 +74,10 @@ public class LaunchScreen extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void onCheckboxClicked(View view){
+        Log.d("click", "checkbox clicked!");
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -69,14 +90,18 @@ public class LaunchScreen extends AppCompatActivity {
 
         int id = item.getItemId();
         if (id == R.id.action_Freya) {
-            currentUser = freya;
-            displayTasks(freya);
+            displayContentFor(freya);
         }
         if (id == R.id.action_Eliza) {
-            currentUser = eliza;
-            displayTasks(eliza);
+            displayContentFor(eliza);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void displayContentFor(User user){
+        currentUser = user;
+        displayTasks();
+        setName();
     }
 
     private String getTasksFromSharedPreferences(User user) {
@@ -111,9 +136,10 @@ public class LaunchScreen extends AppCompatActivity {
         return userTasks;
     }
 
-    private boolean displayTasks(User user){
+    private boolean displayTasks(){
+
         //Instead of using the default tasks, we want to read them in from SharedPreferences.
-        String userTasksJson = getTasksFromSharedPreferences(user);
+        String userTasksJson = getTasksFromSharedPreferences(currentUser);
         ArrayList<Task> userTasks = getTasksFromJSon(userTasksJson);
 
         //The following 3 lines have been adapted from TopMoviesActivity
@@ -122,5 +148,13 @@ public class LaunchScreen extends AppCompatActivity {
         listView.setAdapter(taskAdapter);
 
         return true;
+    }
+
+    public void getTask(View listItem) {
+        Task task = (Task) listItem.getTag();
+
+        Intent intent = new Intent(this, TaskDetailActivity.class);
+        intent.putExtra("task", task);
+        startActivity(intent);
     }
 }
