@@ -36,14 +36,23 @@ public class LaunchScreen extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //set a Toolbar to act as the ActionBar for this Activity window.
         setSupportActionBar(toolbar);
-
         //Creates a link to the button on the layout.
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.add_button);
+
+        //need to load each user with tasks from Json
+        initialiseUserWithJSon(freya);
+        initialiseUserWithJSon(eliza);
+    }
+
+    private void initialiseUserWithJSon(User user){
+        String userTasksJson = getTasksFromSharedPreferences(user);
+        ArrayList<Task> userTasks = getTasksFromJSon(userTasksJson);
+        user.setTasks(userTasks);
     }
 
     public void onFabClick(View view){
+        //adds a user to the intent, so that we can access it on the other side!
         Intent intent = new Intent(this, AddTaskActivity.class);
-        //here I can add a user to the intent, so that we can access it on the other side!
         intent.putExtra("user", currentUser);
         startActivity(intent);
     }
@@ -76,11 +85,19 @@ public class LaunchScreen extends AppCompatActivity {
         preferences = getSharedPreferences(sharedPrefsKey, Context.MODE_PRIVATE); //so only our app can use shared info
 
         ArrayList<String> tasksJSON = new ArrayList<>();
-        for (Task t : user.getTasks()) {
-            String tJson = gson.toJson(t);
+        for (Task task : user.getTasks()) {
+            String tJson = gson.toJson(task); //converts a Task into JSON
             tasksJSON.add(tJson);
         }
         //second parameter is what we get if the requested key isn't found
+        //let's check if it IS found...
+        if (preferences.contains("tasks")){
+            Log.d("tasks key found!!", "key found!");
+        }
+        else {
+            Log.d("tasks key not found!!", "key not found!");
+        }
+
         return preferences.getString("tasks", tasksJSON.toString());
     }
 
@@ -97,8 +114,6 @@ public class LaunchScreen extends AppCompatActivity {
     private boolean displayTasks(User user){
         //Instead of using the default tasks, we want to read them in from SharedPreferences.
         String userTasksJson = getTasksFromSharedPreferences(user);
-
-        //1 - Load favourites
         ArrayList<Task> userTasks = getTasksFromJSon(userTasksJson);
 
         //The following 3 lines have been adapted from TopMoviesActivity

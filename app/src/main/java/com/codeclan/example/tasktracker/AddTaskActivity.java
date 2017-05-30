@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -29,8 +30,8 @@ public class AddTaskActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-
         currentUser = (User) getIntent().getSerializableExtra("user");
+        Log.d("CurrentUser's tasks:", new Integer(currentUser.getTasks().size()).toString());
     }
 
     public void onAddButtonClick(View view){
@@ -43,8 +44,13 @@ public class AddTaskActivity extends AppCompatActivity {
         String pointsString = pointsBox.getText().toString();
 
         //validate input
-        if (taskName.length()==0 || pointsString.length()==0){
-            Snackbar.make(view, "Please enter a task description and number of points", Snackbar.LENGTH_LONG)
+        if (taskName.length()==0 ){
+            Snackbar.make(view, "Please enter a task description", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+            return;
+        }
+        if (pointsString.length()==0){
+            Snackbar.make(view, "Please enter number of points", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
             return;
         }
@@ -55,19 +61,21 @@ public class AddTaskActivity extends AppCompatActivity {
         currentUser.addTask(task);
 
         //Save updated Task list to SharedPreferences
-        saveFavourites(currentUser.getTasks());
+        saveTasks(currentUser.getTasks());
 
         //Move to a display (list) layout. For now, let's move back to the LaunchScreen...
         Intent intent = new Intent(this, LaunchScreen.class);
         startActivity(intent);
     }
 
-    private void saveFavourites(ArrayList<Task> tasks) {
+    private void saveTasks(ArrayList<Task> tasks) {
         //Creates link to the user's SharedPreferences
         String sharedPrefsKey = currentUser.getName()+"_prefs";
+        Log.d("SharedPrefences key:", sharedPrefsKey);
         currentUserPreferences = getSharedPreferences(sharedPrefsKey, Context.MODE_PRIVATE);
 
         SharedPreferences.Editor editor = currentUserPreferences.edit();
+        Log.d("TASKS", gson.toJson(tasks));
         editor.putString("tasks", gson.toJson(tasks));
         editor.apply();
     }

@@ -48,4 +48,15 @@ public class UserTest {
         String expected = "Make bed";
         assertEquals(expected, user.getTask(0).getName());
     }
+
+    @Test
+    public void checkSwapTasks(){
+        Task task = new Task("Hoover dog", 1, "Remove all loose hair from dog.");
+        ArrayList<Task> newTasks = new ArrayList<Task>();
+        newTasks.add(task);
+
+        user.setTasks(newTasks);
+        assertEquals(1, user.getTasks().size());
+    }
+
 }

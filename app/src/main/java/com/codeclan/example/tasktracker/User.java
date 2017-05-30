@@ -46,4 +46,8 @@ public class User implements Serializable {
     public ArrayList<Task> getTasks() {
         return tasks;
     }
+
+    public void setTasks(ArrayList<Task> tasks){
+        this.tasks = tasks;
+    }
 }
