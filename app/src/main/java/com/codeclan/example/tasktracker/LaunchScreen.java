@@ -27,7 +27,7 @@ public class LaunchScreen extends AppCompatActivity {
     private Gson gson = new Gson();
     private User freya = new User("Freya");
     private User eliza = new User("Eliza");
-    private User currentUser = freya; //initialized to avoid null pointer errors if the fab button is pressed before a menu selection
+    private User currentUser;
     private TextView nameBox;
     private CheckBox checkbox;
 
@@ -35,6 +35,8 @@ public class LaunchScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch_screen);
+
+        decideCurrentUser();
 
 //        clears SharedPreferences for development purposes
 //        preferences = getSharedPreferences("Eliza_prefs", Context.MODE_PRIVATE);
@@ -54,9 +56,24 @@ public class LaunchScreen extends AppCompatActivity {
         //need to load each user with tasks from Json
         initialiseUserWithJSon(freya);
         initialiseUserWithJSon(eliza);
+        
+        displayContentFor(currentUser);
+    }
 
-        //Show Freya's tasks as default
-        displayContentFor(freya);
+    private void decideCurrentUser() {
+        User passedInUser = (User) getIntent().getSerializableExtra("user");
+
+        if ( passedInUser != null){
+            if (passedInUser.getName().equals("Freya")){
+                currentUser = freya;
+            }
+            else if (passedInUser.getName().equals("Eliza")){
+                currentUser = eliza;
+            }
+        }
+        else {
+            currentUser = freya;
+        }
     }
 
     private void setNameAndTotal(){
