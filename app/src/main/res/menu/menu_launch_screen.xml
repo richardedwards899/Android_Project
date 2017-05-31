@@ -12,4 +12,10 @@
         android:orderInCategory="100"
         android:title="Eliza"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_reset"
+        android:icon="@android:drawable/ic_media_previous"
+        android:orderInCategory="101"
+        android:title="Reset tasks"
+        app:showAsAction="never" />
 </menu>

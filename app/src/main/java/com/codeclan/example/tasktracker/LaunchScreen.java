@@ -38,12 +38,6 @@ public class LaunchScreen extends AppCompatActivity {
 
         decideCurrentUser();
 
-        //clears SharedPreferences for development purposes
-//        preferences = getSharedPreferences("Eliza_prefs", Context.MODE_PRIVATE);
-//        preferences.edit().clear().commit();
-//        preferences = getSharedPreferences("Freya_prefs", Context.MODE_PRIVATE);
-//        preferences.edit().clear().commit();
-
         //Creates a link to the toolbar on the layout.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //set a Toolbar to act as the ActionBar for this Activity window.
@@ -124,7 +118,19 @@ public class LaunchScreen extends AppCompatActivity {
         if (id == R.id.action_Eliza) {
             displayContentFor(eliza);
         }
+        if (id == R.id.menu_reset) {
+            clearOutSharedPreferences();
+            Intent intent = new Intent(this, LaunchScreen.class);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void clearOutSharedPreferences(){
+        preferences = getSharedPreferences("Eliza_prefs", Context.MODE_PRIVATE);
+        preferences.edit().clear().commit();
+        preferences = getSharedPreferences("Freya_prefs", Context.MODE_PRIVATE);
+        preferences.edit().clear().commit();
     }
 
     private void displayContentFor(User user){
