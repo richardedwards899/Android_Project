@@ -42,7 +42,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
         checkbox.setChecked(currentTask.completed());
 
         listItemView.setTag(currentTask);
-        listItemView.setTag(R.id.pence, position); //bodge! We're borrowing the pence id to pass back a value
+        listItemView.setTag(R.id.task_position, position);
 
         return listItemView;
     }

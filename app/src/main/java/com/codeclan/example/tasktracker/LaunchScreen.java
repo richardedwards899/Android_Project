@@ -56,7 +56,7 @@ public class LaunchScreen extends AppCompatActivity {
         //need to load each user with tasks from Json
         initialiseUserWithJSon(freya);
         initialiseUserWithJSon(eliza);
-        
+
         displayContentFor(currentUser);
     }
 
@@ -95,7 +95,7 @@ public class LaunchScreen extends AppCompatActivity {
 
     public void onCheckboxClicked(View view){
         View listItem = (View) view.getParent();  //gets the listItem on which the CheckBox sits
-        int indexOfTask = (int) listItem.getTag(R.id.pence); //awful bodge!
+        int indexOfTask = (int) listItem.getTag(R.id.task_position);
 
         if (((CheckBox) view).isChecked()){
             currentUser.completeTask(indexOfTask);
@@ -142,15 +142,6 @@ public class LaunchScreen extends AppCompatActivity {
             String tJson = gson.toJson(task); //converts a Task into JSON
             tasksJSON.add(tJson);
         }
-        //second parameter is what we get if the requested key isn't found
-        //let's check if it IS found...
-        if (preferences.contains("tasks")){
-            Log.d("tasks key found!!", "key found!");
-        }
-        else {
-            Log.d("tasks key not found!!", "key not found!");
-        }
-
         return preferences.getString("tasks", tasksJSON.toString());
     }
 

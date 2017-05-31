@@ -65,9 +65,8 @@ public class AddTaskActivity extends AppCompatActivity {
         //Save updated Task list to SharedPreferences
         saveTasks(currentUser.getTasks());
 
-        //Move to a display (list) layout. For now, let's move back to the LaunchScreen...
+        //Move to a display (list) layout. attach the currentUser, so that when we go back to the LaunchScreen, we can display their tasks.
         Intent intent = new Intent(this, LaunchScreen.class);
-        //here we can attach the currentUser, so that when we go back to the LaunchScreen, we can display their tasks.
         intent.putExtra("user", currentUser);
         startActivity(intent);
     }
