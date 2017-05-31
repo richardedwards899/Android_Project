@@ -21,6 +21,7 @@
         android:fontFamily="casual"
         android:gravity="center_vertical"
         android:text="Name of chidler"
+        android:textColor="@android:color/black"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

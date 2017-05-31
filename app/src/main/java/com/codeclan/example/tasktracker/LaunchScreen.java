@@ -38,7 +38,7 @@ public class LaunchScreen extends AppCompatActivity {
 
         decideCurrentUser();
 
-//        clears SharedPreferences for development purposes
+        //clears SharedPreferences for development purposes
 //        preferences = getSharedPreferences("Eliza_prefs", Context.MODE_PRIVATE);
 //        preferences.edit().clear().commit();
 //        preferences = getSharedPreferences("Freya_prefs", Context.MODE_PRIVATE);
@@ -104,6 +104,7 @@ public class LaunchScreen extends AppCompatActivity {
             currentUser.uncompleteTask(indexOfTask);
         }
         setNameAndTotal();
+        saveTasks(currentUser.getTasks());
     }
 
     @Override
@@ -175,5 +176,18 @@ public class LaunchScreen extends AppCompatActivity {
         Intent intent = new Intent(this, TaskDetailActivity.class);
         intent.putExtra("task", task);
         startActivity(intent);
+    }
+
+    private void saveTasks(ArrayList<Task> tasks) {
+        //Creates link to the user's SharedPreferences
+        String sharedPrefsKey = currentUser.getName()+"_prefs";
+        Log.d("SharedPrefences key:", sharedPrefsKey);
+        preferences = getSharedPreferences(sharedPrefsKey, Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        //Log.d("TASKS", gson.toJson(tasks));
+        editor.putString("tasks", gson.toJson(tasks));
+        editor.apply();
     }
 }
