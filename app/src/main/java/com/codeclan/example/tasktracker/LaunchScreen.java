@@ -59,8 +59,8 @@ public class LaunchScreen extends AppCompatActivity {
         displayContentFor(freya);
     }
 
-    private void setName(){
-        nameBox.setText(currentUser.getName()+"\'s Tasks");
+    private void setNameAndTotal(){
+        nameBox.setText(currentUser.getName()+": £"+currentUser.valueOfCompletedTasks()/100.0);
     }
 
     private void initialiseUserWithJSon(User user){
@@ -77,14 +77,16 @@ public class LaunchScreen extends AppCompatActivity {
     }
 
     public void onCheckboxClicked(View view){
-        Log.d("click", "checkbox clicked!");
-        checkbox = (CheckBox) findViewById(R.id.check_box);
-        if (checkbox.isChecked()) {
+        View listItem = (View) view.getParent();  //gets the listItem on which the CheckBox sits
+        int indexOfTask = (int) listItem.getTag(R.id.pence); //awful bodge!
 
+        if (((CheckBox) view).isChecked()){
+            currentUser.completeTask(indexOfTask);
         }
         else {
-
+            currentUser.uncompleteTask(indexOfTask);
         }
+        setNameAndTotal();
     }
 
     @Override
@@ -110,7 +112,7 @@ public class LaunchScreen extends AppCompatActivity {
     private void displayContentFor(User user){
         currentUser = user;
         displayTasks();
-        setName();
+        setNameAndTotal();
     }
 
     private String getTasksFromSharedPreferences(User user) {

@@ -27,18 +27,18 @@
 
     <CheckBox
         android:id="@+id/check_box"
-        style="@android:style/Widget.Holo.CompoundButton.CheckBox"
-        android:layout_width="42dp"
-        android:layout_height="42dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:fontFamily="casual"
         android:onClick="onCheckboxClicked"
-        android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/task_text"
+        app:buttonTint="@android:color/black"
+        android:layout_marginRight="24dp"
         app:layout_constraintRight_toRightOf="@+id/task_text"
-        app:layout_constraintTop_toTopOf="@+id/task_text" />
+        app:layout_constraintTop_toTopOf="@+id/task_text"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/task_text"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintVertical_bias="0.5" />
 
 </android.support.constraint.ConstraintLayout>

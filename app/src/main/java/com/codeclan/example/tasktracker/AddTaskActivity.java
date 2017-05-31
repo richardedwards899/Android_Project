@@ -38,10 +38,12 @@ public class AddTaskActivity extends AppCompatActivity {
         //Create links to the input fields on the layout
         EditText taskNameBox = (EditText) findViewById(R.id.task_name);
         EditText penceBox = (EditText) findViewById(R.id.pence);
+        EditText descriptionBox = (EditText) findViewById(R.id.task_description);
 
         //Grab their contents
         String taskName = taskNameBox.getText().toString();
         String penceString = penceBox.getText().toString();
+        String description = descriptionBox.getText().toString();
 
         //validate input
         if (taskName.length()==0 ){
@@ -57,7 +59,7 @@ public class AddTaskActivity extends AppCompatActivity {
         int pence = Integer.parseInt(penceString);
 
         //Create a new Task
-        Task task = new Task(taskName, pence, "");
+        Task task = new Task(taskName, pence, description);
         currentUser.addTask(task);
 
         //Save updated Task list to SharedPreferences

@@ -59,4 +59,15 @@ public class UserTest {
         assertEquals(1, user.getTasks().size());
     }
 
+    @Test
+    public void getCalculateValueOfCompletedTasks(){
+        assertEquals(0, user.valueOfCompletedTasks());
+    }
+
+    @Test
+    public void getCalculateValueOfAllTasks(){
+        user.completeAllTasks();
+        assertEquals(110, user.valueOfCompletedTasks());
+    }
+
 }

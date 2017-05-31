@@ -43,7 +43,13 @@ public class Task implements Serializable {
         return completed;
     }
 
+    public void markAsIncomplete(){
+        completed = false;
+        countCompleted--;
+    }
+
     public int timesCompleted(){
         return countCompleted;
     }
+
 }
