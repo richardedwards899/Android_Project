@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.CheckBox;
 
 import com.google.gson.Gson; //Needed to add 'compile 'com.google.code.gson:gson:2.3.1'' to build.gradle to get this to work...
 import com.google.gson.reflect.TypeToken;
@@ -27,7 +28,8 @@ public class LaunchScreen extends AppCompatActivity {
     private User freya = new User("Freya");
     private User eliza = new User("Eliza");
     private User currentUser = freya; //initialized to avoid null pointer errors if the fab button is pressed before a menu selection
-    TextView nameBox;
+    private TextView nameBox;
+    private CheckBox checkbox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +78,13 @@ public class LaunchScreen extends AppCompatActivity {
 
     public void onCheckboxClicked(View view){
         Log.d("click", "checkbox clicked!");
+        checkbox = (CheckBox) findViewById(R.id.check_box);
+        if (checkbox.isChecked()) {
+
+        }
+        else {
+
+        }
     }
 
     @Override

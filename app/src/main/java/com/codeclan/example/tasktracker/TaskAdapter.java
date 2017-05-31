@@ -40,8 +40,6 @@ public class TaskAdapter extends ArrayAdapter<Task> {
         return listItemView;
     }
 
-
-
 }
 
 

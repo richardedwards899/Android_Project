@@ -65,6 +65,7 @@ public class AddTaskActivity extends AppCompatActivity {
 
         //Move to a display (list) layout. For now, let's move back to the LaunchScreen...
         Intent intent = new Intent(this, LaunchScreen.class);
+        //here we can attach the currentUser, so that when we go back to the LaunchScreen, we can display their tasks.
         startActivity(intent);
     }
 
